@@ -1,0 +1,32 @@
+{
+  "name": "weathering_with_you",
+  "version": "1.0.0",
+  "description": "By Echo-Gambino following Jin's tutorial [here](https://wookenstein.medium.com/mern-full-stack-tutorial-2020-part-1-backend-server-side-73e38125b04f)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Echo-Gambino/weathering_with_you.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Echo-Gambino/weathering_with_you/issues"
+  },
+  "homepage": "https://github.com/Echo-Gambino/weathering_with_you#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.10"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.7"
+  }
+}
