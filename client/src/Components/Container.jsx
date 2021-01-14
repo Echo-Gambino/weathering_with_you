@@ -9,7 +9,7 @@ class Container extends Component {
 
     render() {
         return (
-            <section classname="weather container">
+            <section className="weather container">
                 <WeatherForm />
                 <WeatherPanels weatherData={this.state.weatherData} />
             </section>
