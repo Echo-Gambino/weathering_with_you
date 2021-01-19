@@ -4,8 +4,10 @@
   "description": "By Echo-Gambino following Jin's tutorial [here](https://wookenstein.medium.com/mern-full-stack-tutorial-2020-part-1-backend-server-side-73e38125b04f)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "cd client && npm run start",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",

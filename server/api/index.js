@@ -36,7 +36,14 @@ router.post("/weatherMongo", async(req, res) => {
     let weather = new Weather();
     let weatherData = await weather.getWeatherData(zipCode, tempMetric);
 
-    await weather.saveWeatherDataToMongo(zipCode, weatherData);
+    weather.saveWeatherDataToMongo(zipCode, weatherData)
+        .then((result) => {
+            console.log("POST saveWeatherDataToMongo() successful");
+            // console.log(result);
+        }).catch((error) => {
+            console.log("POST saveWeatherDataToMongo() error");
+            console.log(error);
+        });
     res.header("Content-Type", 'application/json');
     res.send(JSON.stringify(weatherData, null, 4));
 });
