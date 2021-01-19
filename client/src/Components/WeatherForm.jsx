@@ -1,7 +1,10 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux';
 import {Form, Button, Row, Col, ButtonGroup, ToggleButton} from "react-bootstrap";
 
 import axios from 'axios';
+
+import {saveZipCode, saveWeatherData, saveTemperature, updateHistory} from "../actions";
 
 class WeatherForm extends Component {
     // default state values
@@ -23,6 +26,7 @@ class WeatherForm extends Component {
             this.queryWeatherData(
                     zipCode, tempMetric
                 ).then(d => {
+                    this.props.saveWeatherData(d.data);
                     localStorage.setItem("CurrentWeatherData", JSON.stringify(d.data));
                 });
         }
@@ -42,6 +46,7 @@ class WeatherForm extends Component {
             ).then(response => {
                 let weatherData = response.data;
 
+                this.saveToStore(weatherData);
                 this.saveToLocalStorage(weatherData);
             });
     }
@@ -51,6 +56,7 @@ class WeatherForm extends Component {
         localStorage.setItem("zipCode", this.state.zipCodeInput);
         localStorage.setItem("tempMetric", this.state.tempMetric);
         localStorage.setItem("CurrentWeatherData", JSON.stringify(weatherData));
+        localStorage.setItem("WeatherHistory", JSON.stringify(this.props.history));
     }
 
     queryWeatherData = (zipCode, tempMetric) => {
@@ -67,10 +73,26 @@ class WeatherForm extends Component {
             let weatherData = response.data;
 
             // Do what you want with the weather data
+            this.saveToStore(weatherData);
             this.saveToLocalStorage(weatherData);
         }).catch(error => {
             console.log("saveToMongo() caught error:");
             console.log(error);
+        });
+    }
+
+    // Saves data to the Redux store
+    saveToStore = (weatherData) => {
+        this.props.saveTemperature(this.state.tempMetric);
+        this.props.saveZipCode(this.state.zipCodeInput);
+        this.props.saveWeatherData(weatherData);
+
+        this.props.updateHistory({
+            timestamp: (new Date()).toLocaleString(),
+            city: weatherData.name,
+            zipcode: this.state.zipCodeInput,
+            temperature: weatherData.main.temp,
+            description: weatherData.weather[0].description
         });
     }
 
@@ -131,4 +153,25 @@ class WeatherForm extends Component {
     }
 }
 
-export default WeatherForm;
+// Mapping state from the store to props
+const mapStateToProps = (state) => {
+    return {
+        zipCode: state.zipCode,
+        weather: state.weather,
+        tempMetric: state.tempMetric,
+        history: state.history
+    }
+};
+
+// Actions we can dispatch and just mapping it to props
+const mapDispatchToProps = () => {
+    return {
+        saveZipCode,
+        saveWeatherData,
+        saveTemperature,
+        updateHistory
+    }
+};
+
+// Connects mapping the state & dispatch to props to use in WeatherForm
+export default connect(mapStateToProps, mapDispatchToProps())(WeatherForm);

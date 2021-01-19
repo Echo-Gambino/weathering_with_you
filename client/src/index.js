@@ -17,10 +17,10 @@ const store = createStore(
 );
 
 ReactDOM.render(
-  <React.StrictMode store={store}>
+  <Provider store={store}>
     <Header />
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 

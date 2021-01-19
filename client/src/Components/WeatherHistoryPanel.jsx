@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {Card, ListGroup} from "react-bootstrap";
 
 class WeatherHistoryPanel extends Component {
@@ -23,7 +24,7 @@ class WeatherHistoryPanel extends Component {
 
     createHistoryList = () => {
         let historyComponents = [];
-        let historyList = this.state.history;
+        let historyList = this.props.history;
 
         // Listing history of zip code submissions in "most recent" order
         for (let i = historyList.length - 1; i >= 0; i--) {
@@ -42,7 +43,7 @@ class WeatherHistoryPanel extends Component {
 
     getInfoListItem = (info) => {
         return (
-            <ListGroup.Item>
+            <ListGroup.Item key={info.timestamp}>
                 <b>{info.timestamp}</b> - 
                 [{info.city}, {info.zipcode}]:[{info.temperature}, {info.description}]
             </ListGroup.Item>
@@ -52,10 +53,16 @@ class WeatherHistoryPanel extends Component {
     render() {
         return (
             <section className="weather-history-panel">
-                {!!this.state.history.length ? this.createHistoryList() : "No History!"}
+                {!!this.props.history.length ? this.createHistoryList() : "No History!"}
             </section>
         );
     }
 }
 
-export default WeatherHistoryPanel;
+const mapStateToProps = (state) => {
+    return {
+        history: state.history
+    }
+};
+
+export default connect(mapStateToProps)(WeatherHistoryPanel);
