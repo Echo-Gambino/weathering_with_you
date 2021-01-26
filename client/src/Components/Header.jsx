@@ -5,7 +5,6 @@ class Header extends Component {
         return (
             <section className="header">
                 <h1>Weathering with you <span role="img" aria-label={"umbrella"}>☂️</span></h1>
-                <span className="annotation">(MERN Full Stack Website Example)</span>
             </section>
         );
     }
